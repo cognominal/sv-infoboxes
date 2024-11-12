@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { searchcache } from '$lib/serverstate';
 import { getLabelFromWikidataID } from '$lib/utils';
-import { type SearchResult } from '$type';
+import { type SearchResult } from '$lib/types';
 
 export const GET: RequestHandler = async ({ url }) => {
     const query = url.searchParams.get('query');
@@ -26,7 +26,7 @@ export const GET: RequestHandler = async ({ url }) => {
         //     `${apiUrl}?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&prop=categories&clshow=!hidden&cllimit=max`
         // );        
         const data = await response.json();
-        console.log(JSON.stringify(data, null, 2))
+        // console.log(JSON.stringify(data, null, 2))
        
         // weed out unecessary entires
         const results = data.query.search.map((item: any) => ({
@@ -36,7 +36,7 @@ export const GET: RequestHandler = async ({ url }) => {
         }));
 
         results.forEach((element: SearchResult) => {
-            
+
 
         } )
 

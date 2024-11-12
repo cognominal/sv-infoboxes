@@ -1,7 +1,8 @@
 // wikidataApi.test.ts
 
-import { describe, it, expect, vi } from 'vitest';
-import { getWikidataID, getP31Property, getInstanceOf, getLabelFromWikidataID } from './yourModuleFile';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { getWikidataID, getP31Property, getInstanceOf, 
+    getLabelFromWikidataID, extractUrls } from '$lib/utils'
 
 globalThis.fetch = vi.fn();
 
@@ -119,5 +120,34 @@ describe('getLabelFromWikidataID', () => {
 
         const result = await getLabelFromWikidataID("Q42", "fr");
         expect(result).toBeNull();
+    });
+});
+
+describe('extractUrls', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <a href="wikiArticle.html">Article</a>
+            <a href="https://example.com/page">Example</a>
+            <a href="wikiPage.html">Wiki Page</a>
+        `;
+    });
+
+    it('should return URLs matching the provided pattern', () => {
+        const pattern = /^wiki.*\.html$/;
+        const result = extractUrls(pattern);
+        expect(result).toEqual(['wikiArticle.html', 'wikiPage.html']);
+    });
+
+    it('should return an empty array if no URLs match', () => {
+        const pattern = /^nonexistent.*\.html$/;
+        const result = extractUrls(pattern);
+        expect(result).toEqual([]);
+    });
+
+    it('should ignore links without href attribute', () => {
+        document.body.innerHTML += `<a>No href</a>`;
+        const pattern = /^wiki.*\.html$/;
+        const result = extractUrls(pattern);
+        expect(result).toEqual(['wikiArticle.html', 'wikiPage.html']);
     });
 });

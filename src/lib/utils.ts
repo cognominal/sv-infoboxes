@@ -19,7 +19,7 @@ export function extractUrls(pattern: RegExp): string[] {
 
 
 // Step 1: Get the Wikidata ID from a Wikipedia page URL
-async function getWikidataID(wpPageTitle: string): Promise<string | null> {
+export async function getWikidataID(wpPageTitle: string): Promise<string | null> {
   const url = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wpPageTitle)}&prop=pageprops&format=json`;
   
   const response = await fetch(url);
@@ -32,7 +32,7 @@ async function getWikidataID(wpPageTitle: string): Promise<string | null> {
 }
 
 // Step 2: Get the P31 property from Wikidata
-async function getP31Property(wikidataID: string): Promise<string | null> {
+export async function getP31Property(wikidataID: string): Promise<string | null> {
   const url = `https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${wikidataID}&property=P31&format=json`;
 
   const response = await fetch(url);
@@ -48,7 +48,7 @@ async function getP31Property(wikidataID: string): Promise<string | null> {
 }
 
 // Main function to get the "instance of" property from a Wikipedia page
-async function getInstanceOf(wpPageTitle: string): Promise<string | null> {
+export async function getInstanceOf(wpPageTitle: string): Promise<string | null> {
   const wikidataID = await getWikidataID(wpPageTitle);
   if (wikidataID) {
     return await getP31Property(wikidataID);

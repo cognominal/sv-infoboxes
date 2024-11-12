@@ -1,4 +1,5 @@
-// import { type searchResult } from '$type';
+// don't know how to import it when named types.d.ts
+
 import {type  Cache, createTimedCache}  from '$lib/cache'
 
 export type SearchResult = {
