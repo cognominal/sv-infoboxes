@@ -33,11 +33,12 @@
   />
   
   {#if $results.length > 0}
-    <div>
+    <div class=" max-w-prose">
       {#each $results as { title, snippet, pageId }}
         <div>
             <h3><a href={`/api/wp?pageId=${pageId}`} target="_blank" rel="noopener">{title}</a></h3>
-          <p>{@html snippet}</p>
+          <p class=" opacity-50">{@html snippet}</p>
+          <hr class=" border-b-2 "/>
         </div>
       {/each}
     </div>

@@ -47,3 +47,4 @@ export const GET: RequestHandler = async ({ url }) => {
         return new Response(JSON.stringify({ error: 'Failed to fetch Wikipedia page data' }), { status: 500 });
     }
 };
+
